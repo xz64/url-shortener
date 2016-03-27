@@ -23,7 +23,7 @@ var dbService = {
   },
   getURL: function getURL(seq) {
     return new Promise(function(resolve, reject) {
-      this.collection.findOne({seq: 1})
+      this.collection.findOne({seq: seq})
       .then(function(item) {
         resolve(item.url);
       })
