@@ -41,11 +41,23 @@ function setupMongo() {
 }
 
 app.get('/new/:url', function(req, res) {
-  res.end(req.params.url);
+  urlService.processUrl(req.params.url)
+  .then(function(data) {
+    res.json(data);
+  })
+  .catch(function(err) {
+    res.json({error: 'unknown error'});
+  });
 });
 
 app.get('/:id(\\d+)', function(req, res) {
-  res.end(req.params.id);
+  urlService.getUrl(+req.params.id)
+  .then(function(url) {
+    res.redirect(url);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
 });
 
 connectMongo()
