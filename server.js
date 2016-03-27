@@ -2,8 +2,11 @@ var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
 
 var dbService = require('./src/dbService.js');
+var urlService = require('./src/urlService.js');
 
 var port = +process.env.PORT || 8080;
+var host = process.env.NODE_ENV === 'production' ?
+  'https://xz64-url-shortener.herokuapp.com' : 'http://localhost:' + port;
 var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/urls';
 var db;
 var collection;
@@ -48,6 +51,7 @@ app.get('/:id(\\d+)', function(req, res) {
 connectMongo()
 .then(setupMongo)
 .then(function() {
+  urlService.init(host);
   dbService.init(collection);
   app.listen(port);
 })

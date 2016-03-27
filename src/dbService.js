@@ -28,7 +28,7 @@ var dbService = {
     return new Promise(function(resolve, reject) {
       this.collection.findOne({seq: seq})
       .then(function(item) {
-        resolve(item.url);
+        resolve(item);
       })
       .catch(function(err) {
         reject(err);
