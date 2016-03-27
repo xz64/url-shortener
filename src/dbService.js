@@ -14,6 +14,23 @@ var dbService = {
         }
       });
     }.bind(this));
+  },
+  insertURL: function insertURL(url) {
+    return this.getNextSeq()
+    .then(function(seq) {
+      return this.collection.insertOne({seq: seq, url: url});
+    }.bind(this));
+  },
+  getURL: function getURL(seq) {
+    return new Promise(function(resolve, reject) {
+      this.collection.findOne({seq: 1})
+      .then(function(item) {
+        resolve(item.url);
+      })
+      .catch(function(err) {
+        reject(err);
+      });
+    }.bind(this));
   }
 };
 
