@@ -18,7 +18,10 @@ var dbService = {
   insertURL: function insertURL(url) {
     return this.getNextSeq()
     .then(function(seq) {
-      return this.collection.insertOne({seq: seq, url: url});
+      return this.collection.insertOne({seq: seq, url: url})
+      .then(function(r) {
+        return r.ops[0];
+      });
     }.bind(this));
   },
   getURL: function getURL(seq) {
