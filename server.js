@@ -1,6 +1,8 @@
 var express = require('express');
 var MongoClient = require('mongodb').MongoClient;
 
+var dbService = require('./src/dbService.js');
+
 var port = +process.env.PORT || 8080;
 var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/urls';
 var db;
@@ -28,7 +30,6 @@ function setupMongo() {
         reject(err);
       }
       else {
-        db = _db;
         collection = _collection;
         resolve();
       }
@@ -45,8 +46,9 @@ app.get('/:id(\\d+)', function(req, res) {
 });
 
 connectMongo()
-.then(setupMongo())
+.then(setupMongo)
 .then(function() {
+  dbService.init(collection);
   app.listen(port);
 })
 .catch(function(err) {
