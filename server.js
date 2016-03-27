@@ -40,8 +40,9 @@ function setupMongo() {
   });
 }
 
-app.get('/new/:url', function(req, res) {
-  urlService.processUrl(req.params.url)
+app.get('/new/*', function(req, res) {
+  var url = req.path.replace('/new/','');
+  urlService.processUrl(url)
   .then(function(data) {
     res.json(data);
   })
